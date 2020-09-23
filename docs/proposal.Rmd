@@ -1,0 +1,144 @@
+---
+title: "Water use efficency and soil fertility in Tunisian Drylands"
+author: "Darius Görgen"
+date: "9/23/2020"
+output: 
+  html_document:
+    theme: flatly
+    highlight: default
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(sf)
+library(raster)
+library(gdalcubes)
+```
+
+## Context
+
+The [Carl Friedrich von Weizsäcker-Zentrum für Naturwissenschaft und Friedensforschung (ZNF)](https://www.znf.uni-hamburg.de/forschung/konflikte-land-und-wassernutzung.html)
+in the context of their research project *Sustainable Land-Use Scenarios: Soil, Biodiversity, Water, Food and Energy Security* 
+initiated a DAAD funded research excursion with the 
+title *Cooperation for Sustainable Development in Drylands*. For this project
+a number of Tunisian and German students were asked to develop research questions 
+concerned with water scarcity, agricultural productivity and biodiversity management.
+Based on existing scientific knowledge possibilities for increased water use efficiency
+in agro-pastoral systems are to be investigated in order to derive recommendations
+on suitable crop types, tillage practices as well as irrigation schemes under water
+scarce conditions. The project was set out to include a two-week field work 
+close to Bouhedma National Park, however, because of travel restrictions due to the 
+Covid-19 pandemic this field work at least has to be delayed. In cases like these,
+when field visits are not possible for whatever reason Remote Sensing (RS) still
+has the potential to deliver valuable insights for currently non-accessible regions,
+e.g. in times of conflicts. The following project proposal thus suggests using 
+existing RS products to monitor conversation agriculture practices implemented 
+by an [ICARDA](https://mel.cgiar.org/projects/clca2) research project in Tunisia and
+three other countries. 
+
+
+## ICARDA project
+
+The [project](https://mel.cgiar.org/uploads/projects/Or84HhEC38-100114%20IFAD%20CLCA_ICARDA_CIMMYT_Proposal%204.10.17%20for%20SEC%20clean[1]_vg.pdf) is entitled *Use of Conservation Agriculture in Crop-Livestock Systems (CLCA) in the Drylands for enhanced Water Use and Soil Fertility in NEN and LAC Countries*.
+It is a follow-up project of an earlier effort in the same direction and is funded
+by a total budget of 2.5 Mio. USD for the period 2018 to 2022. The main focus
+of the project lies on integrated capacity building between farmers and researchers
+in Latin American and Northern African drylands. The project sets out to
+engage with a total number of 3000 individuals in the agricultural sector to
+implement CLCA practices in an interactive exchange process. The first component of
+the project consists of a participatory research effort to analyze which 
+soil conversion and water use efficiency technologies could be used in the specific
+socio-environmental context of the farmers. The second component consists of mainstreaming
+lessons-learned of the first component e.g. through video materials to be used
+by farmers but also engaging in local, regional and national policy dialogues to
+ensure a lasting effect on agricultural practices. One major pillar of such a research
+project lies in the effective, accurate and reproducible monitoring and evaluation of implemented
+practices in order to draw objective and valuable recommendations to a variety of
+stakeholders beginning at the farm level to national politicians as well as donors and
+international decision makers. Here, RS can help to produce spatially and temporal consistent,
+reproducible and accurate estimates on the effects of different implemented practices.
+
+## Project outline
+
+In collaboration with the ICARDA CLCA project team the effectiveness of different
+conservation practices on water use efficiency in agro-pastoral systems in Tunisia
+shall be comparatively investigated by the means of RS. In order to achieve this,
+a number of appropriate indicators shall be analyzed both ex-ante and during the
+implementation phase. The codes produced during this analysis, however, can be used
+for an ex-post analysis once the project lifetime has ended and data is available.
+The project team agreed to deliver field boundaries of the respective project areas 
+together with the necessary metadata including e.g. crop types, rotation patterns, 
+irrigation techniques as well as the time of implementation.
+
+For the indicators to be analyzed the [FAO WaPOR](https://wapor.apps.fao.org) portal
+offers a great variety of value-added RS products in the context of agriculture and
+irrigation for the African continent currently at a spatial resolution of 100 meters.
+There is the risk that this resolution does not suffice the information needs of
+the project team, however, an individual tailored RS solution would require
+far more resources than currently available. The WaPOR data thus represents a 
+possibility to quickly gain insights into the effectiveness of implemented activities
+at a comparatively low level of costs. The portal provides among others following
+datasets:
+
+- [Seasonal Gross Biomass Water Productivity (GBWP - kg/m³)](https://wapor.apps.fao.org/catalog/WAPOR_2/2/L2_GBWP_S)
+- [Dekadal Actual EvapoTranspiration and Interception (AETI - mm)](https://wapor.apps.fao.org/catalog/WAPOR_2/2/L2_AETI_D)
+- [Dekadal Transpiration (T - mm)](https://wapor.apps.fao.org/catalog/WAPOR_2/2/L2_T_D)
+- [Seasonal Total Biomass Production (TBP - kg/ha)](https://wapor.apps.fao.org/catalog/WAPOR_2/2/L2_TBP_S)
+- [Seasonal Phenology information (PHE - dekads)](https://wapor.apps.fao.org/catalog/WAPOR_2/2/L2_PHE_S)
+
+Dekadal datasets are provided approximately 5 days after a dekad has ended. Seasonal data
+layers are updated with the availability of dekadal base layers which means that 
+usually the seasonal data for a specific year is completely available at the 
+end of February of the following year. Thus currently a complete analysis of
+the years 2010 to 2019 is possible. The GBWP delivers a first valuable insight
+into plant productiveness, however, since in its production AETI is considered as
+the denominator transpirational water from the soil and leaves is included
+in the balance as well. In order to deliver more accurate estimates on the amount
+of water which is actually consumed by plants the transpiration layer is used to
+calculate Net Biomass Water Productivity (NBWP). This data layer is currently not 
+included at the WaPOR portal, thus it needs to be calculated using the seasonal
+phenological information to sum up the transpiration of a given location during a season.
+The technical components are explained in more detail below (tbc).
+
+Once a complete time series of NBWP between 2010 and 2019 is calculated zonal statistics
+are extracted for each field boundary provided by the project team. Zonal statistics
+means that for all pixel values which fall into a specific boundary descriptive
+statistics are evaluated, e.g. mean, median, standard deviation, minimum, maximum.
+A time series also allows to investigate linear trends on the pixel and object basis
+to see if there  was an increase in water use efficiency after
+the implementation of certain practices. The extracted values will then be compared
+based on the metadata provided by the project team, e.g. crop type, rotation patterns
+or irrigation schemes. 
+
+The results of such analysis will be a number of yearly maps showing the NBWP values
+as well as a number of diagrams comparing different groups of fields. The analysis
+will be conducted using R and relevant spatial software libraries. The analysis and
+the results are developed to ensure reproducibility in accordance with OpenScience 
+standards, which means that the complete code of the project will be made publicly
+available on GitHub or elsewhere. 
+
+Concrete deliverables for the proposed project thus consist of 
+
+- calculating of NBWP raster data set for the project region,
+- extracting of zonal statistics for project fields for the years 2010 to 2019 during first and second season,
+- drawing yearly maps of NBWP for first and second season for the project regions,
+- conducting linear trend analysis on a pixel basis and trend maps indicating the slope and p-value of the trends,
+- conducting linear trend analysis on the object basis based on the starting year of implementation,
+- conducting descriptive statistics in the form of plots for different groups of project fields,
+- creating an online R Markdown document describing the methodology and results of the research,
+- creating a GitHub repository (or another repository) containing all codes of the analysis.
+
+
+
+
+
+
+
+
