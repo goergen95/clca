@@ -5,3 +5,4 @@ This repository will eventually contain the code for a water use efficiency anal
 **Online resources**
 
 - [Project proposal](https://goergen95.github.io/clca/proposal.html)
+- [Presentation](https://goergen95.github.io/clca/proposal.html) (October 8th, 2020)
