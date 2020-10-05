@@ -3,13 +3,14 @@ title: "Cooperation for Sustainable Developments in Drylands"
 output:
   revealjs::revealjs_presentation:
     theme: white
-    transition: fade
+    transition: slide
     center: true
     mathjax: default
     reveal_options:
       slideNumber: true
-      minScale: 1.0
+      minScale: 0.0
       maxScale: 1.0
+    fig_caption: false
     includes: 
       in_header: assets/includes/header.html
 ---
@@ -20,12 +21,12 @@ libs = c("sf", "knitr", "leaflet", "leaflet.extras", "leaflet.providers",
 for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = T))}
 ```
 
-# About me
-<style>
-.reveal section img { background:none; border:none; box-shadow:none; }
-</style>
 
-##
+
+<section><h1>About me</h1>
+
+---
+
 - Darius Görgen
 - B.A. Political Sciences & B.Sc. Geography @University of Marburg
 - M.Sc. thesis: Predicting violent conflict induced by environmental changes
@@ -33,9 +34,14 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 - [KfW intern position](https://kfw-jobs.de/index.php?ac=jobad&id=4681)
 - slides @[https://github.com/goergen95/clca](https://github.com/goergen95/clca)
 
-# What am I going to talk about?
+</section>
 
-## 
+--- 
+
+<section><h1>What am I going to talk about?</h1>
+
+---
+
 - ICARDA's project on conservation agriculture
 
 - some basics of remote sensing
@@ -44,9 +50,14 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 
 - outline the work to be done
 
-# Research project
+</section>
 
-## 
+---
+
+<section><h1>Research project</h1>
+
+---
+
 - ongoing [ICARDA project](https://mel.cgiar.org/uploads/projects/Or84HhEC38-100114%20IFAD%20CLCA_ICARDA_CIMMYT_Proposal%204.10.17%20for%20SEC%20clean%5B1%5D_vg.pdf) (2018 - 2022) financed by an [IFAD](https://www.ifad.org/en/) grant of 2.5 Mio. USD
 
 - implementation of conservation agriculture practices to increase water use efficiency, soil protection and income
@@ -60,11 +71,16 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 ![Conservation Agriculture according to FAO](assets/images/ca.png)
 <small class="caption">adapted from [FAO (2017)](http://www.fao.org/3/a-i7480e.pdf)</small>
 
-##
+---
+
 - 180 Mio. ha (12.5%) of global cropland under CA practices in 2015 ([Kassam et. al (2018)](https://journals.openedition.org/factsreports/3966))
 - criticism was expressed about the impact of CA on smallholder farms ([Giller et. al (2015)](https://www.frontiersin.org/articles/10.3389/fpls.2015.00870/full))
 
-# Basics of Remote Sensing
+</section>
+
+---
+
+<section><h1>Basics of Remote Sensing</h1>
 
 ---
 
@@ -82,8 +98,8 @@ include_graphics("assets/images/ems.jpg")
 
 <small class="caption">Source: [NASA](https://mynasadata.larc.nasa.gov/basic-page/electromagnetic-spectrum-diagram)</small>
 
-
 ---
+
 
 ```{r echo=F, out.width="100%"}
 include_graphics("assets/images/s2_spectral_response.png")
@@ -97,7 +113,11 @@ include_graphics("assets/images/s2_spectral_response.png")
 - spatial resolution
 - temporal resolution
 
-# WaPOR Dataset
+</section>
+
+---
+
+<section><h1>WaPOR Datasets</h1>
 
 ---
 
@@ -123,7 +143,11 @@ include_graphics("assets/images/et.png")
 
 <small class="caption">Source: [FAO (2020)](http://www.fao.org/3/ca9894en/CA9894EN.pdf)</small>
 
-# Area of Interest
+</section>
+
+---
+
+<section><h1>Area of Interest</h1>
 
 ---
 
@@ -142,10 +166,11 @@ leaflet()  %>%
 
 ```
 
+</section>
 
-# Precipitation Analysis
+---
 
---- 
+<section><h1>Precipitation Analysis</h1>
 
 ```{r read-data, echo=FALSE, include=F}
 prec_m = readRDS("assets/data/prec_monthly.rds")
@@ -154,6 +179,8 @@ spei = readRDS("assets/data/spei.rds")
 nbwp = readRDS("assets/data/nbwp.rds")
 tbp  = readRDS("assets/data/tbp.rds")
 ```
+
+--- 
 
 ```{r, echo = FALSE}
 ggplot(prec_y) +
@@ -259,7 +286,11 @@ subplot(style(ggplotly(p5), showlegend = FALSE), style(ggplotly(p6), showlegend 
         style(ggplotly(p7), showlegend = FALSE), style(ggplotly(p8), showlegend = FALSE), nrows = 4, shareX = T, shareY = T)
 ```
 
-# Water Productivity Analysis
+</section>
+
+---
+
+<section><h1>Water Productivity Analysis</h1>
 
 ---
 
@@ -267,7 +298,7 @@ subplot(style(ggplotly(p5), showlegend = FALSE), style(ggplotly(p6), showlegend 
 nbwp %>%
   mutate(title = "Net Biomass Water Productivity (kg/m³)") %>%
   ggplot()+
-  geom_bar(aes(y=value, x=year, fill = season, group=season), stat = "identity", position = "dodge")+
+  geom_bar(aes(y=value, x=year, fill = season), stat = "identity", position = "dodge")+
   scale_fill_manual(values = c("darkseagreen", "darkolivegreen4")) +
   labs(y="(kg/m³)") +
   facet_wrap(~title) +
@@ -276,13 +307,15 @@ nbwp %>%
 tbp %>%
   mutate(title = "Total Biomass Production (kg/ha)") %>%
   ggplot() +
-  geom_bar(aes(y=value, x=year, fill=season, group=season), stat = "identity", position = "dodge")+
+  geom_bar(aes(y=value, x=year, fill=season), stat = "identity", position = "dodge")+
   scale_fill_manual(values = c("darkseagreen", "darkolivegreen4")) +
   labs(y="(kg/ha)") +
   facet_wrap(~title) +
   theme_classic() -> p10
 
-subplot(style(ggplotly(p10), showlegend = FALSE), 
+subplot(style(ggplotly(p10), showlegend = F), 
         style(ggplotly(p9), showlegend = T),
         nrows = 2)
 ```
+
+</section>
