@@ -8,6 +8,8 @@ output:
     mathjax: default
     reveal_options:
       slideNumber: true
+      minScale: 1.0
+      maxScale: 1.0
     includes: 
       in_header: assets/includes/header.html
 ---
