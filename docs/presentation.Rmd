@@ -2,7 +2,7 @@
 title: "Cooperation for Sustainable Developments in Drylands"
 output:
   revealjs::revealjs_presentation:
-    theme: white
+    theme: simple
     transition: slide
     center: true
     mathjax: default
@@ -16,12 +16,14 @@ output:
 ---
 
 ```{r setup, echo=F}
-libs = c("sf", "knitr", "leaflet", "leaflet.extras", "leaflet.providers", 
+libs = c("sf", "knitr", "leaflet", "leaflet.extras", "leaflet.providers", "raster",
          "magrittr", "ggplot2", "tidyr", "dplyr", "gridExtra", "plotly", "forcats")
 for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = T))}
 ```
 
-
+<style>
+.reveal section img { background:none; border:none; box-shadow:none; }
+</style>
 
 <section><h1>About me</h1>
 
@@ -31,7 +33,6 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 - B.A. Political Sciences & B.Sc. Geography @University of Marburg
 - M.Sc. thesis: Predicting violent conflict induced by environmental changes
 - Passionate about OpenSource, OpenData, OpenScience with R and Python
-- [KfW intern position](https://kfw-jobs.de/index.php?ac=jobad&id=4681)
 - slides @[https://github.com/goergen95/clca](https://github.com/goergen95/clca)
 
 </section>
@@ -100,6 +101,12 @@ include_graphics("assets/images/ems.jpg")
 
 ---
 
+```{r echo=F, out.width="100%"}
+include_graphics("assets/images/solrdn.gif")
+```
+<small class="caption">Source: [Centre for Remote Imaging, Sensing & Processing](https://crisp.nus.edu.sg/~research/tutorial/optical.htm)</small>
+
+---
 
 ```{r echo=F, out.width="100%"}
 include_graphics("assets/images/s2_spectral_response.png")
@@ -108,6 +115,27 @@ include_graphics("assets/images/s2_spectral_response.png")
 <small class="caption">Source: [ESA](https://earth.esa.int/web/sentinel/technical-guides/sentinel-2-msi/performance)</small>
 
 ---
+
+```{r echo=F, out.width="70%"}
+include_graphics("assets/images/ras_vec.png")
+```
+
+<small class="caption">Source: [Saab (2003)](https://www.researchgate.net/publication/269335995_Conceptualizing_Space_Mapping_Schemas_as_Meaningful_Representations)</small>
+
+---
+
+
+```{r echo=F, out.width="70%"}
+include_graphics("assets/images/crops.JPG")
+```
+
+<small class="caption">Source: [USGS](https://www.usgs.gov/media/images/hyperspectral-signatures)</small>
+
+---
+
+
+
+
 
 - spectral resolution
 - spatial resolution
@@ -151,7 +179,9 @@ include_graphics("assets/images/et.png")
 
 ---
 
-```{r echo=F, fig.align="center"}
+
+<font size="2"> 
+```{r map, echo=F, fig.align="center", warning=FALSE, message=FALSE, }
 aoi = st_read("../data/wdpa/bouhedma.gpkg", quiet = TRUE )
 aoi = st_transform(aoi,  st_crs("EPSG:32632"))
 aoi_buffer = st_buffer(aoi, dist = 50000)
@@ -159,13 +189,46 @@ aoi = st_transform(aoi, st_crs(4326))
 aoi_buffer = st_transform(aoi_buffer, st_crs(4326))
 bbx = st_bbox(aoi_buffer)
 
+lcc = raster("../data/lcc/lcc2019.tif")
+lcc = crop(lcc, aoi_buffer)
+lcc[lcc == 43] = NA
+
+lcc = ratify(lcc)
+rat = levels(lcc)[[1]]
+vals = sort(unique(na.omit(values(lcc))))
+labels = c("Rainfed cropland", "Irrigated cropland")
+colors = c("darkgoldenrod1", "darkorange3")
+
+rat$landcover = labels
+rat$code = vals
+rat$colors = colors
+levels(lcc) = rat
+
+
+apl = colorFactor(rainbow(2), values(lcc), na.color = "transparent")
+
 leaflet()  %>%
-  addProviderTiles(providers$Esri.WorldImagery) %>%
-  addPolygons(data = aoi) %>%
-  addPolygons(data = aoi_buffer, fill = FALSE)
+  addProviderTiles(providers$Esri.WorldImagery, group = "Imagery") %>%
+  addProviderTiles(providers$OpenStreetMap, group = "OpenStreetMap") %>%
+  addPolygons(data = aoi, group = "Bouhedma Natioanl Park") %>%
+  addPolygons(data = aoi_buffer, fill = FALSE, group = "Buffer") %>%
+  addRasterImage(lcc, colors = apl, opacity = .9,
+                 group = "Land Use Classification", method = "ngb") %>%
+  addLayersControl(baseGroups = c("Imagery", "OpenStreetMap"),
+                   overlayGroups = c("Bouhedma National Park","Buffer","Land Use Classification"),
+                   options = layersControlOptions(collapsed = FALSE)) %>%
+  addLegend("bottomright", 
+            pal = apl,
+            values = levels(lcc)[[1]]$code, 
+            labels = labels,
+            labFormat = labelFormat(
+              transform = function(x){
+                levels(lcc)[[1]]$landcover[which(levels(lcc)[[1]]$code == x)]
+              }
+            ))
 
 ```
-
+</font>
 </section>
 
 ---
@@ -182,7 +245,7 @@ tbp  = readRDS("assets/data/tbp.rds")
 
 --- 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.width=9, fig.height=7}
 ggplot(prec_y) +
   geom_bar(aes(x=year, y = prec), stat = "identity", position = "dodge", fill = "#034e7b")+
   labs(y = "(mm)", x = "Year" ) +
@@ -193,12 +256,12 @@ ggplot(prec_m) +
   labs(y = "(mm)", x = "Year",title = "Yearly and monthly sum of precipitation") +
   theme_classic() -> p2
 
-subplot(ggplotly(p1), ggplotly(p2), nrows = 2, titleY = TRUE)
+partial_bundle(subplot(ggplotly(p1), ggplotly(p2), nrows = 2, titleY = TRUE))
 ```
 
 ---
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.width=9, fig.height=7}
 
 prec_y %>%
   ggplot(aes(x = year, y = anom, fill = sign)) + 
@@ -220,7 +283,7 @@ prec_m %>%
   theme_classic() -> p4
 
 
-subplot(style(ggplotly(p3), showlegend = FALSE), style(ggplotly(p4), showlegend = FALSE), nrows = 2, titleY = TRUE)
+partial_bundle(subplot(style(ggplotly(p3), showlegend = FALSE), style(ggplotly(p4), showlegend = FALSE), nrows = 2, titleY = TRUE))
 ```
 
 ---
@@ -282,8 +345,8 @@ plt_data %>%
   theme_classic() +
   facet_wrap(~cap, nrow = 1) -> p8
 
-subplot(style(ggplotly(p5), showlegend = FALSE), style(ggplotly(p6), showlegend = FALSE),
-        style(ggplotly(p7), showlegend = FALSE), style(ggplotly(p8), showlegend = FALSE), nrows = 4, shareX = T, shareY = T)
+partial_bundle(subplot(style(ggplotly(p5), showlegend = FALSE), style(ggplotly(p6), showlegend = FALSE),
+                       style(ggplotly(p7), showlegend = FALSE), style(ggplotly(p8), showlegend = FALSE), nrows = 4, shareX = T, shareY = T))
 ```
 
 </section>
@@ -294,7 +357,7 @@ subplot(style(ggplotly(p5), showlegend = FALSE), style(ggplotly(p6), showlegend 
 
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.width=9, fig.height=7}
 nbwp %>%
   mutate(title = "Net Biomass Water Productivity (kg/m³)") %>%
   ggplot()+
@@ -313,9 +376,9 @@ tbp %>%
   facet_wrap(~title) +
   theme_classic() -> p10
 
-subplot(style(ggplotly(p10), showlegend = F), 
-        style(ggplotly(p9), showlegend = T),
-        nrows = 2)
+partial_bundle(subplot(style(ggplotly(p10), showlegend = F), 
+                       style(ggplotly(p9), showlegend = T),
+                       nrows = 2, shareX = T))
 ```
 
 </section>
