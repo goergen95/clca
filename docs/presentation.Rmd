@@ -133,9 +133,11 @@ include_graphics("assets/images/crops.JPG")
 
 ---
 
+<iframe src="https://www.esa.int/content/view/embedjw/473937" width="640" height="360" frameborder="0"></iframe>
 
+<small class="caption">Source: [ESA](https://www.esa.int/ESA_Multimedia/Videos/2016/08/Sentinel-2_global_coverage)</small>
 
-
+---
 
 - spectral resolution
 - spatial resolution
