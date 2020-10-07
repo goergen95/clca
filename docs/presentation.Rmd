@@ -91,7 +91,7 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 ---
 
 <h4>Basic principles of RS</h4>
-```{r echo=F, out.width="100%"}
+```{r echo=F, out.width="90%"}
 include_graphics("assets/images/rs.png")
 ```
 
@@ -109,7 +109,7 @@ include_graphics("assets/images/ems.jpg")
 ---
 
 <h4>Solar radiation and atmospheric windows</h4>
-```{r echo=F, out.width="100%"}
+```{r echo=F, out.width="80%"}
 include_graphics("assets/images/solrdn.gif")
 ```
 <small class="caption">Source: [Centre for Remote Imaging, Sensing & Processing](https://crisp.nus.edu.sg/~research/tutorial/optical.htm)</small>
@@ -117,7 +117,7 @@ include_graphics("assets/images/solrdn.gif")
 ---
 
 <h4>Spectral response functions of Sentinel-2 A & B</h4>
-```{r echo=F, out.width="100%"}
+```{r echo=F, out.width="90%"}
 include_graphics("assets/images/s2_spectral_response.png")
 ```
 
@@ -127,7 +127,7 @@ include_graphics("assets/images/s2_spectral_response.png")
 
 
 <h4>Spectral signatures of different crops</h4>
-```{r echo=F, out.width="70%"}
+```{r echo=F, out.width="75%"}
 include_graphics("assets/images/crops.JPG")
 ```
 
@@ -136,7 +136,7 @@ include_graphics("assets/images/crops.JPG")
 ---
 
 <h4>Basic geographic data representations</h4>
-```{r echo=F, out.width="70%"}
+```{r echo=F, out.height="90%"}
 include_graphics("assets/images/ras_vec.png")
 ```
 
@@ -177,7 +177,7 @@ include_graphics("assets/images/wapor.png")
 ---
 
 <h4>Relational diagram of data layers in WaPOR</h4>
-```{r echo=F, out.width="100%"}
+```{r echo=F, out.width="90%"}
 include_graphics("assets/images/wapor_scheme.png")
 ```
 
@@ -186,7 +186,7 @@ include_graphics("assets/images/wapor_scheme.png")
 ---
 
 <h4>Scheme of ETLook model used by WaPOR </h4>
-```{r echo=F, out.width="75%"}
+```{r echo=F, out.width="70%"}
 include_graphics("assets/images/et.png")
 ```
 
@@ -256,7 +256,7 @@ leaflet()  %>%
 
 <section><h1>Precipitation Analysis</h1>
 
-```{r read-data, echo=FALSE, include=F}
+```{r read-data, echo=FALSE, include=F, warning=FALSE, message=FALSE}
 prec_m = readRDS("assets/data/prec_monthly.rds")
 prec_y  = readRDS("assets/data/prec_yearly.rds")
 spei = readRDS("assets/data/spei.rds")
@@ -267,7 +267,7 @@ tbp  = readRDS("assets/data/tbp.rds")
 --- 
 
 <h4>Yearly and monthly sum of precipitation</h4>
-```{r, echo = FALSE, fig.width=9, fig.height=7}
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
 ggplot(prec_y) +
   geom_bar(aes(x=year, y = prec), stat = "identity", position = "dodge", fill = "#034e7b")+
   labs(y = "(mm)", x = "Year" ) +
@@ -284,7 +284,7 @@ partial_bundle(subplot(ggplotly(p1), ggplotly(p2), nrows = 2, titleY = TRUE))
 ---
 
 <h4>Precipitation anomalies</h4>
-```{r, echo = FALSE, fig.width=9, fig.height=7}
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
 prec_y %>%
   ggplot(aes(x = year, y = anom, fill = sign)) + 
@@ -312,7 +312,7 @@ partial_bundle(subplot(style(ggplotly(p3), showlegend = FALSE), style(ggplotly(p
 ---
 
 <h4>Standardised Precipitation-Evapotranspiration Index (SPEI)</h4>
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=9, fig.height=7}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
 spei %>%
   gather(scale, value, -date) %>%
@@ -381,7 +381,7 @@ partial_bundle(subplot(style(ggplotly(p5), showlegend = FALSE), style(ggplotly(p
 ---
 
 <h4>Productivity measures for the first and second season</h4>
-```{r, echo=FALSE, fig.width=9, fig.height=7}
+```{r, echo=FALSE, out.width="80%", warning=FALSE, message=FALSE}
 nbwp %>%
   mutate(title = "Net Biomass Water Productivity (kg/m³)") %>%
   ggplot()+
@@ -404,8 +404,6 @@ partial_bundle(subplot(style(ggplotly(p10), showlegend = F),
                        style(ggplotly(p9), showlegend = T),
                        nrows = 2, shareX = T))
 ```
-
----
 
 </section>
 
@@ -444,6 +442,8 @@ partial_bundle(subplot(style(ggplotly(p10), showlegend = F),
 <br>
 <br>
 [https://github.com/goergen95/clca](https://github.com/goergen95/clca)
+&
+[https://goergen95.github.io/clca/presentation.html](https://goergen95.github.io/clca/presentation.html)
 </section>
 
 
