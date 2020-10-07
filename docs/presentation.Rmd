@@ -1,5 +1,5 @@
 ---
-title: "Cooperation for Sustainable Developments in Drylands"
+title: "Remote Sensing to monitor Water Use Efficency in Agriculture"
 output:
   revealjs::revealjs_presentation:
     theme: simple
@@ -25,9 +25,7 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 .reveal section img { background:none; border:none; box-shadow:none; }
 </style>
 
-<section><h1>About me</h1>
-
----
+<section><h4>About me</h4>
 
 - Darius Görgen
 - B.A. Political Sciences & B.Sc. Geography @University of Marburg
@@ -39,9 +37,7 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 
 --- 
 
-<section><h1>What am I going to talk about?</h1>
-
----
+<section><h4>What am I going to talk about?</h4>
 
 - ICARDA's project on conservation agriculture
 
@@ -59,6 +55,7 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 
 ---
 
+<h4>Conservation Agriculture in crop-livestock systems (CLCA) in the drylands</h4>
 - ongoing [ICARDA project](https://mel.cgiar.org/uploads/projects/Or84HhEC38-100114%20IFAD%20CLCA_ICARDA_CIMMYT_Proposal%204.10.17%20for%20SEC%20clean%5B1%5D_vg.pdf) (2018 - 2022) financed by an [IFAD](https://www.ifad.org/en/) grant of 2.5 Mio. USD
 
 - implementation of conservation agriculture practices to increase water use efficiency, soil protection and income
@@ -67,15 +64,23 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 
 - in the future: modeling of impacts on water balance and biomass productivity on water basin scale
 
-## Conservation agriculture (CA)
+
+
+---
+
+<h4>Conservation agriculture (CA)</h4>
 
 ![Conservation Agriculture according to FAO](assets/images/ca.png)
 <small class="caption">adapted from [FAO (2017)](http://www.fao.org/3/a-i7480e.pdf)</small>
+
 
 ---
 
 - 180 Mio. ha (12.5%) of global cropland under CA practices in 2015 ([Kassam et. al (2018)](https://journals.openedition.org/factsreports/3966))
 - criticism was expressed about the impact of CA on smallholder farms ([Giller et. al (2015)](https://www.frontiersin.org/articles/10.3389/fpls.2015.00870/full))
+- increase in yields is not observed globally
+- in dry conditions yield increase is more pronounced
+- depending on the implementation
 
 </section>
 
@@ -85,6 +90,7 @@ for (lib in libs) {suppressPackageStartupMessages(library(lib, character.only = 
 
 ---
 
+<h4>Basic principles of RS</h4>
 ```{r echo=F, out.width="100%"}
 include_graphics("assets/images/rs.png")
 ```
@@ -93,6 +99,7 @@ include_graphics("assets/images/rs.png")
 
 ---
 
+<h4>EM-Spectrum</h4>
 ```{r echo=F, out.width="70%"}
 include_graphics("assets/images/ems.jpg")
 ```
@@ -101,6 +108,7 @@ include_graphics("assets/images/ems.jpg")
 
 ---
 
+<h4>Solar radiation and atmospheric windows</h4>
 ```{r echo=F, out.width="100%"}
 include_graphics("assets/images/solrdn.gif")
 ```
@@ -108,6 +116,7 @@ include_graphics("assets/images/solrdn.gif")
 
 ---
 
+<h4>Spectral response functions of Sentinel-2 A & B</h4>
 ```{r echo=F, out.width="100%"}
 include_graphics("assets/images/s2_spectral_response.png")
 ```
@@ -116,15 +125,8 @@ include_graphics("assets/images/s2_spectral_response.png")
 
 ---
 
-```{r echo=F, out.width="70%"}
-include_graphics("assets/images/ras_vec.png")
-```
 
-<small class="caption">Source: [Saab (2003)](https://www.researchgate.net/publication/269335995_Conceptualizing_Space_Mapping_Schemas_as_Meaningful_Representations)</small>
-
----
-
-
+<h4>Spectral signatures of different crops</h4>
 ```{r echo=F, out.width="70%"}
 include_graphics("assets/images/crops.JPG")
 ```
@@ -133,11 +135,25 @@ include_graphics("assets/images/crops.JPG")
 
 ---
 
+<h4>Basic geographic data representations</h4>
+```{r echo=F, out.width="70%"}
+include_graphics("assets/images/ras_vec.png")
+```
+
+<small class="caption">Source: [Saab (2003)](https://www.researchgate.net/publication/269335995_Conceptualizing_Space_Mapping_Schemas_as_Meaningful_Representations)</small>
+
+---
+
+<h4>Sentinel-2 flight path animation by ESA</h4>
 <iframe src="https://www.esa.int/content/view/embedjw/473937" width="640" height="360" frameborder="0"></iframe>
 
 <small class="caption">Source: [ESA](https://www.esa.int/ESA_Multimedia/Videos/2016/08/Sentinel-2_global_coverage)</small>
 
 ---
+
+<h3>Levels of resolution for RS data</h3>
+<br>
+<br>
 
 - spectral resolution
 - spatial resolution
@@ -151,6 +167,7 @@ include_graphics("assets/images/crops.JPG")
 
 ---
 
+<h4>Screenshot of the WaPOR portal</h4>
 ```{r echo=F, out.width="100%"}
 include_graphics("assets/images/wapor.png")
 ```
@@ -159,6 +176,7 @@ include_graphics("assets/images/wapor.png")
 
 ---
 
+<h4>Relational diagram of data layers in WaPOR</h4>
 ```{r echo=F, out.width="100%"}
 include_graphics("assets/images/wapor_scheme.png")
 ```
@@ -167,6 +185,7 @@ include_graphics("assets/images/wapor_scheme.png")
 
 ---
 
+<h4>Scheme of ETLook model used by WaPOR </h4>
 ```{r echo=F, out.width="75%"}
 include_graphics("assets/images/et.png")
 ```
@@ -181,7 +200,7 @@ include_graphics("assets/images/et.png")
 
 ---
 
-
+<h4>Map of Bouhedma National Park and 50km buffer zone</h4>
 <font size="2"> 
 ```{r map, echo=F, fig.align="center", warning=FALSE, message=FALSE, }
 aoi = st_read("../data/wdpa/bouhedma.gpkg", quiet = TRUE )
@@ -247,6 +266,7 @@ tbp  = readRDS("assets/data/tbp.rds")
 
 --- 
 
+<h4>Yearly and monthly sum of precipitation</h4>
 ```{r, echo = FALSE, fig.width=9, fig.height=7}
 ggplot(prec_y) +
   geom_bar(aes(x=year, y = prec), stat = "identity", position = "dodge", fill = "#034e7b")+
@@ -255,7 +275,7 @@ ggplot(prec_y) +
 
 ggplot(prec_m) +
   geom_bar(aes(x=date, y = prec), stat = "identity", position = "dodge", fill = "#034e7b")+
-  labs(y = "(mm)", x = "Year",title = "Yearly and monthly sum of precipitation") +
+  labs(y = "(mm)", x = "Year") +
   theme_classic() -> p2
 
 partial_bundle(subplot(ggplotly(p1), ggplotly(p2), nrows = 2, titleY = TRUE))
@@ -263,6 +283,7 @@ partial_bundle(subplot(ggplotly(p1), ggplotly(p2), nrows = 2, titleY = TRUE))
 
 ---
 
+<h4>Precipitation anomalies</h4>
 ```{r, echo = FALSE, fig.width=9, fig.height=7}
 
 prec_y %>%
@@ -281,7 +302,7 @@ prec_m %>%
   #scale_x_date(date_breaks = "year", date_labels = "%Y") +
   scale_y_continuous(breaks = seq(-50, 100, 20)) +
   scale_fill_manual(values = c("#99000d", "#034e7b")) +
-  labs(y = "(mm)", x = "Year", title = "Yearly and monthly precipitation anomalies") +
+  labs(y = "(mm)", x = "Year") +
   theme_classic() -> p4
 
 
@@ -290,6 +311,7 @@ partial_bundle(subplot(style(ggplotly(p3), showlegend = FALSE), style(ggplotly(p
 
 ---
 
+<h4>Standardised Precipitation-Evapotranspiration Index (SPEI)</h4>
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=9, fig.height=7}
 
 spei %>%
@@ -342,8 +364,7 @@ plt_data %>%
   #scale_x_date(date_breaks = "year", date_labels = "%Y") +
   scale_y_continuous(breaks = seq(-10, 10, 1)) +
   scale_fill_manual(values = c("#99000d", "#034e7b")) +
-  labs(y = "SPEI", x = "",
-       title = "Standardised Precipitation-Evapotranspiration Index (SPEI) at different time scales") +
+  labs(y = "SPEI", x = "") +
   theme_classic() +
   facet_wrap(~cap, nrow = 1) -> p8
 
@@ -359,6 +380,7 @@ partial_bundle(subplot(style(ggplotly(p5), showlegend = FALSE), style(ggplotly(p
 
 ---
 
+<h4>Productivity measures for the first and second season</h4>
 ```{r, echo=FALSE, fig.width=9, fig.height=7}
 nbwp %>%
   mutate(title = "Net Biomass Water Productivity (kg/m³)") %>%
@@ -383,4 +405,48 @@ partial_bundle(subplot(style(ggplotly(p10), showlegend = F),
                        nrows = 2, shareX = T))
 ```
 
+---
+
 </section>
+
+---
+
+<section><h3>The way forward</h3>
+<br>
+<br>
+
+- field boundaries collected by ICARDA coupled with implemented practices
+- collection of a control group (e.g. through PSM)
+- comparisons of TBP, GBWP, and NBWP by groups
+- test for significant differences between treatment and control groups
+
+</section>
+
+---
+
+<section><h3>Sources</h3>
+<font size="4"> 
+
+- [FAO (2020): WaPOR database methodology: Version 2 release, April 2020. Rome. https://doi.org/10.4060/ca9894en](http://www.fao.org/3/ca9894en/CA9894EN.pdf)
+- [Funk et al. (2015): The climate hazards infrared precipitation with stations—a new environmental record for monitoring extremes. Sci Data 2, 150066. https://doi.org/10.1038/sdata.2015.66](https://www.nature.com/articles/sdata201566)
+- [Giller et al. (2015): Beyond conservation agriculture. Front. Plant Sci. 6. 10.3389/fpls.2015.00870.](https://www.frontiersin.org/articles/10.3389/fpls.2015.00870/full)
+- [Kassam et al. (2015): Overview of the Worldwide Spread of Conservation Agriculture. FACTS Reports. 8.](https://journals.openedition.org/factsreports/3966)
+- [Saab (2003): Conceptualizing Space: Mapping Schemas as Meaningful Representations. MA thesis. Lesley University. Graduate School of Arts and Social Sciences.](https://www.researchgate.net/publication/269335995_Conceptualizing_Space_Mapping_Schemas_as_Meaningful_Representations)
+- [Thenkabail et al. (2013): Selection of Hyperspectral Narrowbands (HNBs) and Composition of Hyperspectral Twoband Vegetation Indices (HVIs) for Biophysical Characterization and Discrimination of Crop Types Using Field Reflectance and Hyperion/EO-1 Data. IEEE J-STARS. 6(2). 427-439. 10.1109/JSTARS.2013.2252601.](https://ieeexplore.ieee.org/document/6507245)
+
+</font>
+</section>
+
+--- 
+
+<section>
+<h2>Thank you for your attention!</h2>
+<br>
+<br>
+[https://github.com/goergen95/clca](https://github.com/goergen95/clca)
+</section>
+
+
+
+
+
